@@ -27,6 +27,7 @@ def parse(info):
         if "SearchResult.TYPE_GAS_STATION" in regularSplit[i-1][:150] :
             obj = {
                 "price": re.findall("\d+\.\d+", regularSplit[i-1][-15:])[0],
+                "priceFloat": float(re.findall("\d+\.\d+", regularSplit[i-1][-15:])[0]),
                 "name": regularSplit[i-1][:150].split("\\\"US\\\",69,84,85,151],")[1].split("\"")[1].split("\"")[0].replace("\\", "")
             }
 
@@ -48,4 +49,4 @@ def parse(info):
 
             locations.append(obj)
     
-    return locations
+    return sorted(locations, key=lambda location: location["priceFloat"])
